@@ -31,6 +31,40 @@
             "content_selector": "p",
             "article_link_selector": ".media-block a",
             "is_scraped": true
+        },
+
+        {
+            "type": "page number",
+            "name": "Ezega news",
+            "url": "https://www.ezega.com/News/",
+            "title_selector": "a",
+            "article_selector": "li",
+            "content_selector": "p",
+            "date_selector": "time",
+            "class_selector": "newscontent",
+            "num_pages": 1,
+            "is_scraped": false
+        },
+
+        {
+            "type": "telegram",
+            "name": "Al ain",
+            "url": "https://t.me/alainamharic",
+            "channel_username": "alainamharic",
+            "is_scraped": false
+        },
+
+        {
+            "type": "page number",
+            "name": "Ezega news",
+            "url": "https://www.ena.et/web/amh",
+            "title_selector": "h1",
+            "article_selector": "div",
+            "content_selector": "p",
+            "date_selector": "time",
+            "class_selector": "ena_display_item_title",
+            "num_pages": 2,
+            "is_scraped": false
         }
     ]
 }
