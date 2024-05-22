@@ -12,15 +12,13 @@
             "num_pages": 40,
             "is_scraped": true
         },
-
         {
             "type": "telegram",
             "name": "TIKVAH-ETHIOPA",
             "url": "https://t.me/tikvahethiopia",
             "channel_username": "tikvahethiopia",
-            "is_scraped": false
+            "is_scraped": true
         },
-        
         {
             "type": "more",
             "name": "VOA Amharic",
