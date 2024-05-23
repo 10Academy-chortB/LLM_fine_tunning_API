@@ -141,6 +141,8 @@ def scrape_telegram(channel_username: str, url: str) -> None:
     except Exception as e:
         logger.error('Error loading the {channel_username} into postgres database : {e}')
 
+
+
 def save_to_db(table: str, title: str, content: str, source: str, date: str) -> None:
     """
     Saves the scraped data to a PostgreSQL database.
@@ -154,7 +156,7 @@ def save_to_db(table: str, title: str, content: str, source: str, date: str) -> 
     """
     env_path = Path('.env')
     load_dotenv(env_path)
-    db_name = os.getenv('DB_NAME')
+    db_name = os.getenv('DB_NAME_RAW')
     port = os.getenv('PORT')
     password = os.getenv('PASSWORD')
     host = os.getenv('HOST')
