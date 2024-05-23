@@ -1,83 +1,61 @@
-import psycopg2
-import logging
-
-logger = logging.getLogger(__name__)
-
-formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
-
-filehandler = logging.FileHandler('logs/preprocessing.log')
-filehandler.setLevel(logging.INFO)
-filehandler.setFormatter(formatter)
-
-logger.addHandler(filehandler)
+from database_operations import get_db_connection, fetch_raw_data, store_cleaned_data
+from preprocess import clean_document
+import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 
-def get_db_connection(db_name, user, password, host, port):
+def main(raw_db_params, raw_table_name, clean_db_params, clean_table_name):
     """
-    Returns connection
-    """
-    try:
-        conn = psycopg2.connect(
-            dbname=db_name,
-            user=user,
-            password=password,
-            host=host,
-            port=port
-        )
-
-        logger.info('Database connection established successfully')
-
-        return conn
-
-    except Exception as e:
-        logger.error("Failed to connect to the databse: %s", e)
-
-
-def fetch_raw_data(conn: psycopg2.connect, table_name: str) -> list:
-    """
-    Fetch raw data from a specified PostgresSQL database, including all columns.
+    Process raw data and store the cleaned data in PostgreSQL database.
 
     Args:
-        conn: A psycopg2 connection object.
-        table_name (str): Name of the table to fetch data from.
-
-    Returns:
-        list: List of tuples containing the data from the table.
+        raw_db_params (dict): Parameters for the raw data database connection.
+        raw_table_name (str): Table name of the raw data.
+        clean_db_params (dict): Parameters for the cleaned data database connection.
+        clean_table_name (str): Table name of the cleaned data.
     """
-    try:
-        cur = conn.cursor()
-        cur.execute(f'SELECT * FROM {table_name}')
-        data = cur.fetchall()
 
-        logger.info(f"Fetched {len(data)} rows from table {table_name}")
+    raw_conn = get_db_connection(**raw_db_params)
+    clean_conn = get_db_connection(** clean_db_params)
 
-        return data
+    raw_data = fetch_raw_data(raw_conn, raw_table_name)
 
-    except Exception as e:
-        logger.error(f"Error fetching data from the table {table_name:} {e}")
-        raise  # Re-raise the exception for handling in the calling function
+    clean_data = [(doc[0], clean_document(doc[1]), doc[2], doc[3]) for doc in raw_data]
+
+    store_cleaned_data(clean_conn, clean_table_name, clean_data)
 
 
-def store_cleaned_data(conn: psycopg2.connect, table_name: str, cleaned_data):
-    """
-    Store cleaned data and all other columns from the source data in the PostgresSQL database.
+    raw_conn.close()
+    clean_conn.close()
 
-    Args:
-        conn: A psycopg2 connection object.
-        table_name (str): Name of the table to store cleaned data.
-        cleaned_data (list): List of lists representing cleaned documents and their original data.
-    """
-    try:
-        cur = conn.cursor()
 
-        column_names = [row[1] for row in cur.description]
+if __name__ == "__main__":
 
-        placeholder_list = ', '.join(['%s' for _ in column_names])
-        insert_query = f"INSERT INTO {table_name} ({', '.join(column_names)}) VALUES ({placeholder_list})"
+    env_path = Path('.env')
+    load_dotenv(env_path)
 
-        cur.executemany(insert_query, cleaned_data)
-        conn.commit()
-        logger.info(f"Stored {len(cleaned_data)} cleaned documents with original data into the table {table_name}.")
+    raw_db_params = {
+    'db_name' : os.getenv('DB_NAME_RAW'),
+    'user' : os.getenv('USER_NAME'),
+    'password' : os.getenv('PASSWORD'),
+    'host' : os.getenv('HOST'),
+    'port' : os.getenv('PORT')
+    }
 
-    except Exception as e:
-        logger.error(f'Error storing cleaned data into table {table_name}: {e}')
+    clean_db_params = {
+    'db_name' : os.getenv('DB_NAME_CLEAN'),
+    'user' : os.getenv('USER_NAME'),
+    'password' : os.getenv('PASSWORD'),
+    'host' : os.getenv('HOST'),
+    'port' : os.getenv('PORT')
+    }
+
+    raw_table_name = 'news'
+    clean_table_name = 'news'
+
+    main(raw_db_params, raw_table_name, clean_db_params, clean_table_name)
+
+
+
+    
