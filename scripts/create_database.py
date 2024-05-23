@@ -21,5 +21,4 @@ def execute_schema(host, db_name, user, password, port) -> None:
     cursor.close()
     conn.close()
 
-#if __name__ == "__main__":
- #   main()
+
