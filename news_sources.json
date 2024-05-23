@@ -12,7 +12,6 @@
             "num_pages": 40,
             "is_scraped": true
         },
-
         {
             "type": "page number",
             "name": "EBC",
@@ -25,15 +24,13 @@
             "num_pages": 40,
             "is_scraped": true
         },
-
         {
             "type": "telegram",
             "name": "TIKVAH-ETHIOPA",
             "url": "https://t.me/tikvahethiopia",
             "channel_username": "tikvahethiopia",
-            "is_scraped": false
+            "is_scraped": true
         },
-        
         {
             "type": "more",
             "name": "VOA Amharic",
@@ -45,7 +42,6 @@
             "article_link_selector": ".media-block a",
             "is_scraped": true
         },
-
         {
             "type": "more",
             "name": "VOA Amharic",
@@ -55,6 +51,14 @@
             "more_button_selector": "a.more-button",
             "content_selector": "p",
             "article_link_selector": ".media-block a",
+            "is_scraped": true
+        },
+        {
+            "type": "lyrics",
+            "name": "Mezmure",
+            "url": "https://wikimezmur.org/am/Gospel_Singers",
+            "base_url": "https://wikimezmur.org/",
+            "table": "Lyrics",
             "is_scraped": true
         }
     ]
