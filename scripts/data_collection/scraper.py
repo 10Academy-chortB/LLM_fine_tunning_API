@@ -1,4 +1,5 @@
 from utils import scrape_news_page, scrape_news_more, scrape_telegram
+from lyrics import scrape_and_store
 import json
 from pathlib import Path
 
@@ -16,7 +17,7 @@ def main():
 
             if not source["is_scraped"]:
                 if source['type'] == 'page number':
-                    scrape_new(source["url"], 
+                    scrape_news_page(source["url"], 
                             source["num_pages"], 
                             source["title_selector"],
                             source["article_selector"],
@@ -36,8 +37,12 @@ def main():
                                      source['content_selector'], 
                                      source['article_link_selector'], 
                                      source['date_selector'])
-
                     
+                elif source['type'] == 'lyrics':
+                    scrape_and_store(source['url'], 
+                                     source['base_url'], 
+                                     source['table'])
+
                 source["is_scraped"] = True
                 update_json_file(sources)
    
