@@ -3,6 +3,7 @@ from psycopg2 import sql
 import logging
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(asctime)s %(name)s %(levelname)s %(message)s')
 
@@ -27,7 +28,7 @@ def get_db_connection(db_name, user, password, host, port):
             port = port
         )
 
-        logger.info('Database connection established successfully')
+        logger.info('Database connection established {db_name} successfully')
 
         return conn
 
@@ -66,28 +67,21 @@ def fetch_raw_data(conn: str, table_name: str) -> list:
 
 def store_cleaned_data(conn, table_name, cleaned_data):
     """
-    Create a new table and store cleaned data in the PostgresSQL database.
+    Create a new table and store cleaned data in the PostgreSQL database.
 
     Args:
         conn: A psycopg2 connection object.
         table_name (str): Name of the table to store cleaned data.
         cleaned_data (list): List of cleaned documents to be stored.
     """
-
     try:
         with conn.cursor() as cursor:
             for doc in cleaned_data:
                 cursor.execute(
-                    sql.SQL("INSERT INTO {} VALUES (%s)").format(sql.Identifier(table_name)),
-                    [doc]
+                    sql.SQL('INSERT INTO scrape.{} ("Headline", "Content", "Source", "date") VALUES (%s, %s, %s, %s)').format(sql.Identifier(table_name)),
+                    doc  # Unpacking the tuple directly here
                 )
         conn.commit()
         logger.info(f"Stored {len(cleaned_data)} cleaned documents into the table {table_name}.")
-
     except Exception as e:
-        logger.info(f'Error storing cleaned data into table {table_name}: {e}')
-        
-
-
-
-
+        logger.error(f'Error storing cleaned data into table {table_name}: {e}')
