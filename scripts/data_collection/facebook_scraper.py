@@ -48,12 +48,18 @@ def extract_posts(driver):
     for post in posts:
         try:
             content = post.find_element(By.XPATH, ".//div[@data-ad-preview='message']").text
+            #date = 
+
+            #create
             print(content)
             print("-" * 80)
         except Exception as e:
             continue
 
-def main():
+
+#def 
+
+def scrape_facebook():
     driver = webdriver.Chrome()
 
     login_to_facebook(driver, FB_EMAIL, FB_PASSWORD)
@@ -75,5 +81,5 @@ def main():
     # Close the driver
     driver.quit()
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+ #   main()
