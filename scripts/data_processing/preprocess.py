@@ -19,4 +19,6 @@ def clean_document(document):
     document = re.sub(r'[a-zA-Z]', '', document)
     # Remove extra whitespace and unwanted characters
     document = re.sub(r'\s+', ' ', document).strip()
+    # Remove square brackets, parenthese, colons and backlashes.
+    document = re.sub(r'[\[\]\(\)]|:|\\', '', document)
     return document
