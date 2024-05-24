@@ -1,7 +1,5 @@
 import psycopg2
 from psycopg2 import sql
-import os
-from dotenv import load_dotenv
 from pathlib import Path
 
 def execute_schema(host, db_name, user, password, port) -> None:
