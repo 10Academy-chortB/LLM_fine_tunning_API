@@ -1,5 +1,5 @@
-from utils import scrape_news_page, scrape_news_more, scrape_telegram
-from lyrics import scrape_and_store
+from scripts.data_collection.utils import scrape_news_page, scrape_news_more, scrape_telegram
+from scripts.data_collection.lyrics import scrape_and_store
 import json
 from pathlib import Path
 
@@ -8,7 +8,7 @@ def update_json_file(sources):
     with open('news_sources.json', 'w') as f:
         json.dump({"sources":sources} , f , indent=4)
 
-def main():
+def scraper():
     Path('.')
     with open('news_sources.json',) as f:
         sources = json.load(f)["sources"]
@@ -26,7 +26,7 @@ def main():
                             source["date_selector"])
 
 
-                elif source['type'] == 'telegram':
+                elif source['type'] == 'telegram_news':
                     scrape_telegram(source["channel_username"], source["url"])
 
                 
@@ -47,4 +47,4 @@ def main():
                 update_json_file(sources)
    
 if __name__ == "__main__":
-    main()
+    scraper()
