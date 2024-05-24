@@ -1,4 +1,4 @@
-scrapp
+scrapy
 beautifulsoup4
 selenium
 requests
