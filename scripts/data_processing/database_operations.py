@@ -65,7 +65,7 @@ def fetch_raw_data(conn: str, table_name: str) -> list:
         logger.error(f"Error fetching data from the table {table_name:} {e}")
 
 
-def store_cleaned_data(conn, table_name, cleaned_data):
+def store_cleaned_news_data(conn, table_name, cleaned_data):
     """
     Create a new table and store cleaned data in the PostgreSQL database.
 
@@ -79,6 +79,29 @@ def store_cleaned_data(conn, table_name, cleaned_data):
             for doc in cleaned_data:
                 cursor.execute(
                     sql.SQL('INSERT INTO scrape.{} ("Headline", "Content", "Source", "date") VALUES (%s, %s, %s, %s)').format(sql.Identifier(table_name)),
+                    doc  # Unpacking the tuple directly here
+                )
+        conn.commit()
+        logger.info(f"Stored {len(cleaned_data)} cleaned documents into the table {table_name}.")
+    except Exception as e:
+        logger.error(f'Error storing cleaned data into table {table_name}: {e}')
+
+
+
+def store_cleaned_lyrics_data(conn, table_name, cleaned_data):
+    """
+    Create a new table and store cleaned data in the PostgreSQL database.
+
+    Args:
+        conn: A psycopg2 connection object.
+        table_name (str): Name of the table to store cleaned data.
+        cleaned_data (list): List of cleaned documents to be stored.
+    """
+    try:
+        with conn.cursor() as cursor:
+            for doc in cleaned_data:
+                cursor.execute(
+                    sql.SQL('INSERT INTO scrape.{} ( artist, song_name, lyrics, duration) VALUES (%s, %s, %s, %s)').format(sql.Identifier(table_name)),
                     doc  # Unpacking the tuple directly here
                 )
         conn.commit()
