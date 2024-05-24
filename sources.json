@@ -1,0 +1,65 @@
+{
+    "sources": [
+        {
+            "type": "page number",
+            "name": "BBC Amharic",
+            "url": "https://www.bbc.com/amharic/topics/c7zp57r92v5t",
+            "title_selector": "h2",
+            "article_selector": "a",
+            "content_selector": "p",
+            "date_selector": "time",
+            "class_selector": "bbc-fa0wmp",
+            "num_pages": 40,
+            "is_scraped": true
+        },
+        {
+            "type": "page number",
+            "name": "EBC",
+            "url": "https://www.ebc.et/newsdetails.aspx?newsid=6745",
+            "title_selector": "h1",
+            "article_selector": "content_dvContent",
+            "content_selector": "p",
+            "date_selector": "date",
+            "class_selector": "col-lg-12 col-md-12 col-sm-12 col-xs-12",
+            "num_pages": 40,
+            "is_scraped": true
+        },
+        {
+            "type": "telegram_news",
+            "name": "TIKVAH-ETHIOPA",
+            "url": "https://t.me/tikvahethiopia",
+            "channel_username": "tikvahethiopia",
+            "is_scraped": true
+        },
+        {
+            "type": "more",
+            "name": "VOA Amharic",
+            "url": "https://amharic.voanews.com/z/3661",
+            "title_selector": "h4.media-block__title",
+            "date_selector": ".date",
+            "more_button_selector": "a.more-button",
+            "content_selector": "p",
+            "article_link_selector": ".media-block a",
+            "is_scraped": true
+        },
+        {
+            "type": "more",
+            "name": "VOA Amharic",
+            "url": "https://amharic.voanews.com/z/3661",
+            "title_selector": "h4.media-block__title",
+            "date_selector": ".date",
+            "more_button_selector": "a.more-button",
+            "content_selector": "p",
+            "article_link_selector": ".media-block a",
+            "is_scraped": true
+        },
+        {
+            "type": "lyrics",
+            "name": "Mezmure",
+            "url": "https://wikimezmur.org/am/Gospel_Singers",
+            "base_url": "https://wikimezmur.org/",
+            "table": "Lyrics",
+            "is_scraped": false
+        }
+    ]
+}
