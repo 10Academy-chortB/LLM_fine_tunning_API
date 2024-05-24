@@ -12,5 +12,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # command to run the web scraping 
-CMD ["python", "scraper.py"]
+CMD ["python", "create_raw_database.py", "facebook_scraper.py", "lyrics.py", "scraper.py", "utils.py"]
 
