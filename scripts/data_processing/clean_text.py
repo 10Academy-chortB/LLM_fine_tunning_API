@@ -1,11 +1,11 @@
-from database_operations import get_db_connection, fetch_raw_data, store_cleaned_data
+from database_operations import get_db_connection, fetch_raw_data, store_cleaned_news_data, store_cleaned_lyrics_data
 from preprocess import clean_document
 import os
 from dotenv import load_dotenv
 from pathlib import Path
 
 
-def main(raw_db_params, raw_table_name, clean_db_params, clean_table_name):
+def clean_data(raw_db_params, raw_table_name, clean_db_params, clean_table_name):
     """
     Process raw data and store the cleaned data in PostgreSQL database.
 
@@ -21,9 +21,13 @@ def main(raw_db_params, raw_table_name, clean_db_params, clean_table_name):
 
     raw_data = fetch_raw_data(raw_conn, raw_table_name)
 
-    clean_data = [(doc[0], clean_document(doc[1]), doc[2], doc[3]) for doc in raw_data]
+    if clean_table_name == 'news':
+        clean_data = [(doc[0], clean_document(doc[1]), doc[2], doc[3]) for doc in raw_data]
+        store_cleaned_news_data(clean_conn, clean_table_name, clean_data)
 
-    store_cleaned_data(clean_conn, clean_table_name, clean_data)
+    if clean_table_name == 'lyrics':
+        clean_data = [(clean_document(doc[0]), clean_document(doc[1]), doc[2], doc[3]) for doc in raw_data]
+        store_cleaned_lyrics_data(clean_conn, clean_table_name, clean_data)
 
 
     raw_conn.close()
@@ -51,10 +55,15 @@ if __name__ == "__main__":
     'port' : os.getenv('PORT')
     }
 
-    raw_table_name = 'news'
-    clean_table_name = 'news'
+    raw_table_name_news = 'news'
+    clean_table_name_news = 'news'
 
-    main(raw_db_params, raw_table_name, clean_db_params, clean_table_name)
+    raw_table_name_lyrics = 'lyrics'
+    clean_table_name_lyrics = 'lyrics'
+
+    clean_data(raw_db_params, raw_table_name_news, clean_db_params, clean_table_name_news)
+    clean_data(raw_db_params, raw_table_name_lyrics, clean_db_params, clean_table_name_lyrics)
+
 
 
 
