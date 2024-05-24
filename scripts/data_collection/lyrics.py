@@ -1,11 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 import psycopg2
 from psycopg2 import sql
 import os
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
 import logging
 from pathlib import Path
 
