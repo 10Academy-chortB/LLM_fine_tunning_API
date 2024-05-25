@@ -49,6 +49,13 @@
             "base_url": "https://wikimezmur.org/",
             "table": "Lyrics",
             "is_scraped": false
+        },
+        {
+            "type": "telegram_news",
+            "name": "AddisWalta - AW",
+            "url": "https://t.me/WALTATVEth",
+            "channel_username": "WALTATVEth",
+            "is_scraped": false
         }
     ]
 }
