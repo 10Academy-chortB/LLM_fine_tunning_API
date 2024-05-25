@@ -12,18 +12,7 @@
             "num_pages": 40,
             "is_scraped": true
         },
-        {
-            "type": "page number",
-            "name": "EBC",
-            "url": "https://www.ebc.et/newsdetails.aspx?newsid=6745",
-            "title_selector": "h1",
-            "article_selector": "content_dvContent",
-            "content_selector": "p",
-            "date_selector": "date",
-            "class_selector": "col-lg-12 col-md-12 col-sm-12 col-xs-12",
-            "num_pages": 40,
-            "is_scraped": true
-        },
+        
         {
             "type": "telegram_news",
             "name": "TIKVAH-ETHIOPA",
