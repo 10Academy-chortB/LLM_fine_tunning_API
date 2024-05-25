@@ -1,0 +1,6 @@
+scrapy
+beautifulsoup4
+selenium
+requests
+python-dotenv
+psycopg2
