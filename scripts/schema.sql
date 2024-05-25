@@ -12,3 +12,10 @@ CREATE TABLE IF NOT EXISTS scrape.Lyrics (
     "lyrics" TEXT,
     "duration" VARCHAR(50)
 );
+
+CREATE TABLE IF NOT EXISTS scrape.Facebook (
+   "Facebook_Username" VARCHAR(255),
+    "Post_Title" VARCHAR(255),
+    "Post_Content" VARCHAR,
+    "Date_Posted" VARCHAR(50)
+);
