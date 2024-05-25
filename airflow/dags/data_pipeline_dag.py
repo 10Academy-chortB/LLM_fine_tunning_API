@@ -12,7 +12,9 @@ os.chdir(parent_dir)
 sys.path.insert(0, parent_dir)
 
 from scripts.data_collection.scraper import scraper
+from scripts.data_collection.create_raw_database import raw_database
 from scripts.data_processing.clean_text import clean_data
+from scripts.data_processing.create_preprocessed_database import preprocessed_database
 
 default_args = {
     'owner': 'Group 1',
@@ -27,6 +29,11 @@ dag = DAG(
     schedule_interval='@daily'
 )
 
+create_raw_database = PythonOperator(
+    task_id='raw_database',
+    python_callable=raw_database,
+    dag=dag
+)
 
 scrape_data_task = PythonOperator(
     task_id='scrape',
@@ -34,6 +41,11 @@ scrape_data_task = PythonOperator(
     dag=dag
 )
 
+create_preprocess_schema = PythonOperator(
+    task_id='preprocess_schema',
+    python_callable=preprocessed_database,
+    dag=dag
+)
 
 
 preprocess_data_task = PythonOperator(
@@ -42,4 +54,5 @@ preprocess_data_task = PythonOperator(
     dag=dag
 )
 
-scrape_data_task >> preprocess_data_task
+
+create_raw_database >> scrape_data_task >> create_preprocess_schema >> preprocess_data_task
