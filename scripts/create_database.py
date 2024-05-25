@@ -12,7 +12,7 @@ def execute_schema(host, db_name, user, password, port) -> None:
     cursor = conn.cursor()
 
     # List of required tables
-    required_tables = ['News', 'Lyrics']
+    required_tables = ['News', 'Lyrics', 'Facebook']
 
     # Check existing tables
     cursor.execute("""
