@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+
 import os
 import psycopg2
 from pathlib import Path
@@ -23,6 +25,7 @@ def connect_to_database():
 
 # Initialize Flask application
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Home route
 @app.route('/')
@@ -66,6 +69,7 @@ def get_news():
 
     news = [row[0] for row in rows]
     conn.close()
+
     return jsonify(news), 200
 
 # Route to fetch unique artists
@@ -84,30 +88,30 @@ def get_artist():
 
     artists = [row[0] for row in rows]
     conn.close()
+
     return jsonify(artists), 200
 
 # Route to search news based on keyword
 @app.route('/news_search', methods=['GET'])
 def search_news():
-    """Searches news based on a provided keyword."""
-    conn = connect_to_database()
-    cur = conn.cursor()
+     """Searches news based on a provided keyword."""
+     conn = connect_to_database()
+     cur = conn.cursor()
 
-    keyword = request.args.get("keyword")
-    if not keyword:
-        return jsonify({"error": "Missing keyword in search query"}), 400
+     keyword = request.args.get("keyword")
+     if not keyword:
+         return jsonify({"error": "Missing keyword in search query"}), 400
     
-    query = """
-    SELECT * FROM scrape.News
-    WHERE "Headline" ILIKE %s OR "Content" ILIKE %s
+     query = """
+     SELECT * FROM scrape.News
+     WHERE "Headline" ILIKE %s OR "Content" ILIKE %s
     """
 
-    cur.execute(query, (keyword, keyword))
-    rows = cur.fetchall()
-    conn.close()
+     cur.execute(query, (f'%{keyword}%', f'%{keyword}%'))
+     rows = cur.fetchall()
+     conn.close()
 
-    return jsonify(rows)
-
+     return jsonify(rows)
 
 # Route to search lyrics based on keyword
 @app.route('/lyrics_search', methods=['GET'])
@@ -125,13 +129,11 @@ def search_lyrics():
     WHERE "song_name" ILIKE %s
     """
 
-    cur.execute(query, ('%' + keyword + '%',))
+    cur.execute(query, (f'%{keyword}%',))
     rows = cur.fetchall()
     conn.close()
-
     return jsonify(rows)
-
 
 # Run the Flask application
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5001, debug=True)
