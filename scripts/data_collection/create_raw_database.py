@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from create_database import execute_schema
 
 
-def main() -> None:
+def raw_database() -> None:
     """
     Main function to load environment variables, establish a connection to the PostgreSQL database,
     read and execute the schema SQL script, and close the database connection.
@@ -27,4 +27,4 @@ def main() -> None:
     execute_schema(host, db_name, user, password, port) 
 
 if __name__ == "__main__":
-    main()
+    raw_database()
