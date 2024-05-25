@@ -8,11 +8,11 @@ const routes = [
     route: "/",
     component: <Home />,
   },
-  {
+  // {
 
-    route: "/detail",
-    component: <DataView/>,
-  }
+  //   route: "/detail",
+  //   component: <DataView/>,
+  // }
 ];
 
 export default routes;

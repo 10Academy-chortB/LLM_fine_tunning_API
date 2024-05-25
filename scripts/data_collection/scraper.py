@@ -5,12 +5,12 @@ from pathlib import Path
 
 def update_json_file(sources):
     Path('.')
-    with open('news_sources.json', 'w') as f:
+    with open('sources.json', 'w') as f:
         json.dump({"sources":sources} , f , indent=4)
 
 def scraper():
     Path('.')
-    with open('news_sources.json',) as f:
+    with open('sources.json',) as f:
         sources = json.load(f)["sources"]
 
         for source in sources:
